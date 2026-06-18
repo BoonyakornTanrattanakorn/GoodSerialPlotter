@@ -437,6 +437,37 @@ function setupTabs() {
   $('tabMonitor').onclick = () => select('monitor');
 }
 
+// ---- welcome / help overlay ------------------------------------------------
+
+const WELCOME_KEY = 'gsp.welcomeDismissed.v1';
+
+function setupWelcome() {
+  const overlay = $('welcome');
+  const open = () => {
+    $('welcomeDontShow').checked = localStorage.getItem(WELCOME_KEY) === '1';
+    overlay.classList.remove('hidden');
+  };
+  const close = () => {
+    overlay.classList.add('hidden');
+    try {
+      if ($('welcomeDontShow').checked) localStorage.setItem(WELCOME_KEY, '1');
+      else localStorage.removeItem(WELCOME_KEY);
+    } catch {}
+  };
+
+  $('help').onclick = open;
+  $('welcomeClose').onclick = close;
+  $('welcomeGo').onclick = close;
+  // Click the backdrop (not the dialog) or press Escape to dismiss.
+  overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !overlay.classList.contains('hidden')) close();
+  });
+
+  // Auto-show on first visit only.
+  if (localStorage.getItem(WELCOME_KEY) !== '1') open();
+}
+
 // ---- bootstrap -------------------------------------------------------------
 
 wire();
@@ -445,5 +476,6 @@ restoreSettings();
 freshBuffer();
 setupMonitor();
 setupTabs();
+setupWelcome();
 restorePlots();
 requestAnimationFrame(frame);

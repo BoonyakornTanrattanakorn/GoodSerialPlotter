@@ -78,6 +78,10 @@
       <button id="loadLayout" type="button" title="Load a layout file">Load layout</button>
       <input id="loadLayoutFile" type="file" accept=".json,application/json" class="hidden" title="Layout file" aria-label="Layout file" />
     </div>
+
+    <div class="group">
+      <button id="help" type="button" title="How to use GoodSerialPlotter">? Help</button>
+    </div>
   </header>
 
   <div id="status" class="status">Disconnected</div>
@@ -104,6 +108,67 @@
     </div>
     <div id="monitorOut" class="monitor-out"></div>
   </section>
+
+  <!-- Welcome / help overlay -->
+  <div id="welcome" class="modal-overlay hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+      <button id="welcomeClose" class="modal-close" type="button" aria-label="Close">✕</button>
+      <h1 id="welcomeTitle">👋 Welcome to GoodSerialPlotter</h1>
+      <p class="modal-sub">
+        Plot live serial data straight in your browser — no install, no backend.
+        It talks to your device over the <b>Web Serial API</b>.
+      </p>
+
+      <div class="modal-cols">
+        <section>
+          <h2>Get started in 4 steps</h2>
+          <ol>
+            <li><b>Pick a baud rate</b> matching your device.</li>
+            <li>Click <b>Connect</b> and choose the serial port in the browser prompt.
+              <br><span class="muted">No device? Tick <b>Dev mode</b> first to try a fake 1 kHz signal.</span></li>
+            <li>Set the <b>Delimiter</b> to match your output (comma, tab, space, …).</li>
+            <li>Click <b>Traces ▾</b> on a plot and tick the channels to show.</li>
+          </ol>
+
+          <h2>Data formats (auto-detected)</h2>
+          <ul>
+            <li><b>Plain:</b> <code>1.2,3.4,5.6</code></li>
+            <li><b>Labeled:</b> <code>temp:25.1,rpm:1200</code> — series get named automatically.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Plots</h2>
+          <ul>
+            <li><b>Drag</b> the title bar to move; <b>drag the corner</b> to resize.</li>
+            <li><b>＋ Add plot</b> for more windows; each shows its own traces.</li>
+            <li><b>Drag</b> on a chart to zoom; <b>Reset zoom</b> resumes live view.</li>
+            <li>The x-axis is fixed (<b>T+ relative to now</b>); data scrolls under it.</li>
+            <li><b>Σ</b> toggles per-trace stats (min / max / avg / std / count).</li>
+          </ul>
+
+          <h2>More</h2>
+          <ul>
+            <li><b>Serial Monitor</b> tab — raw lines with timestamps, filter, save.</li>
+            <li><b>Record → Export CSV</b> to capture a session.</li>
+            <li><b>Reset data</b> clears data but keeps your layout.</li>
+            <li><b>Save / Load layout</b> stores plots, traces &amp; settings to a file.</li>
+            <li>Your setup is auto-saved and restored on reload.</li>
+          </ul>
+        </section>
+      </div>
+
+      <p class="modal-note">
+        ⚠️ Web Serial needs <b>Chrome, Edge, or Opera</b> over HTTPS (or localhost).
+        Firefox/Safari can still use <b>Dev mode</b>.
+      </p>
+
+      <div class="modal-actions">
+        <label class="muted"><input id="welcomeDontShow" type="checkbox" /> Don’t show this again</label>
+        <button id="welcomeGo" class="modal-primary" type="button">Get started</button>
+      </div>
+    </div>
+  </div>
 
   <script src="vendor/uPlot.iife.min.js"></script>
   <script type="module" src="src/app.js"></script>

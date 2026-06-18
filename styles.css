@@ -338,3 +338,90 @@ input[type="checkbox"] { width: auto; padding: 0; accent-color: var(--accent); }
 .u-legend tr.u-series { cursor: pointer; }
 .u-legend .u-off > * { opacity: 0.35; }
 .u-title { color: var(--fg); }
+
+/* ---- welcome / help modal ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(2px);
+}
+.modal {
+  position: relative;
+  width: min(860px, 100%);
+  max-height: 90vh;
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  padding: 28px 32px;
+}
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--fg-dim);
+  font-size: 15px;
+  padding: 4px 9px;
+}
+.modal-close:hover { background: #6b2b2b; color: #ffd9d9; border-color: #8a3a3a; }
+
+.modal h1 { margin: 0 0 6px; font-size: 24px; }
+.modal-sub { margin: 0 0 18px; color: var(--fg-dim); font-size: 14px; }
+.modal h2 { font-size: 15px; margin: 18px 0 8px; color: var(--accent); }
+.modal section:first-child h2:first-of-type { margin-top: 0; }
+
+.modal-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 36px;
+}
+@media (max-width: 680px) { .modal-cols { grid-template-columns: 1fr; } }
+
+.modal ol, .modal ul { margin: 0 0 6px; padding-left: 20px; }
+.modal li { margin: 6px 0; line-height: 1.45; }
+.modal code {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font: 12px/1 ui-monospace, Consolas, monospace;
+}
+.modal .muted { color: var(--fg-dim); font-size: 13px; }
+
+.modal-note {
+  margin: 18px 0 0;
+  padding: 10px 14px;
+  background: #3a2e12;
+  border: 1px solid #5a4a1a;
+  border-radius: 8px;
+  color: #ffe0a3;
+  font-size: 13px;
+}
+
+.modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+  flex-wrap: wrap;
+}
+.modal-primary {
+  background: #2c5d8f;
+  border-color: #3b73ad;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 20px;
+}
+.modal-primary:hover { background: #336aa3; }
+
+#help { background: var(--panel-2); }
