@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GoodSerialPlotter</title>
+  <link rel="stylesheet" href="vendor/uPlot.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="unsupported" class="banner hidden">
+    Web Serial API not available. Use Chrome, Edge, or Opera over HTTPS.
+    You can still use <b>Dev mode</b> to try the plotter without hardware.
+  </div>
+
+  <header class="toolbar">
+    <div class="group">
+      <button id="connect">Connect</button>
+      <button id="disconnect" disabled>Disconnect</button>
+      <label>Baud
+        <select id="baud">
+          <option>9600</option>
+          <option>19200</option>
+          <option>57600</option>
+          <option selected>115200</option>
+          <option>230400</option>
+          <option>460800</option>
+          <option>921600</option>
+        </select>
+      </label>
+    </div>
+
+    <div class="group">
+      <label>Delimiter
+        <select id="delimiter">
+          <option value=",">, comma</option>
+          <option value="\t">\t tab</option>
+          <option value=" ">space</option>
+          <option value=";">; semicolon</option>
+          <option value="custom">custom…</option>
+        </select>
+      </label>
+      <input id="delimiterCustom" class="hidden" placeholder="regex" size="6" />
+    </div>
+
+    <div class="group">
+      <label>Window (s) <input id="window" type="number" value="10" min="0.1" step="0.5" size="4" /></label>
+      <label>Max pts <input id="maxPoints" type="number" value="200000" min="1000" step="1000" size="7" /></label>
+    </div>
+
+    <div class="group">
+      <button id="pause" disabled>Pause</button>
+      <button id="resetZoom">Reset zoom</button>
+      <label><input id="autoscale" type="checkbox" checked /> Autoscale Y</label>
+    </div>
+
+    <div class="group">
+      <button id="record" disabled>● Record</button>
+      <button id="export" disabled>Export CSV</button>
+    </div>
+
+    <div class="group">
+      <input id="sendText" placeholder="send to device…" size="16" disabled />
+      <button id="send" disabled>Send</button>
+    </div>
+
+    <div class="group">
+      <label><input id="devMode" type="checkbox" /> Dev mode (fake 1kHz)</label>
+    </div>
+
+    <div class="group">
+      <button id="addPlot" type="button" title="Add a new plot window">＋ Add plot</button>
+      <button id="resetData" type="button" title="Clear all plotted data, monitor log, and recording">Reset data</button>
+    </div>
+
+    <div class="group">
+      <button id="saveLayout" type="button" title="Download plots + traces + settings as a file">Save layout</button>
+      <button id="loadLayout" type="button" title="Load a layout file">Load layout</button>
+      <input id="loadLayoutFile" type="file" accept=".json,application/json" class="hidden" title="Layout file" aria-label="Layout file" />
+    </div>
+  </header>
+
+  <div id="status" class="status">Disconnected</div>
+
+  <nav class="tabs">
+    <button id="tabPlots" class="tab active" data-tab="plots" type="button">Plots</button>
+    <button id="tabMonitor" class="tab" data-tab="monitor" type="button">Serial Monitor</button>
+  </nav>
+
+  <!-- Plot panels are created dynamically by src/plotpanel.js -->
+  <div id="workspace" class="tab-page active"></div>
+
+  <section id="monitorPage" class="tab-page">
+    <div class="monitor-toolbar">
+      <label><input id="monTimestamp" type="checkbox" checked /> Timestamps</label>
+      <label><input id="monAutoscroll" type="checkbox" checked /> Autoscroll</label>
+      <label>Show TX <input id="monShowTx" type="checkbox" checked /></label>
+      <label>Max lines <input id="monMaxLines" type="number" value="5000" min="100" step="100" size="6" /></label>
+      <input id="monFilter" placeholder="filter (text)…" size="14" />
+      <span class="spacer"></span>
+      <button id="monClear" type="button">Clear</button>
+      <button id="monSave" type="button">Save .txt</button>
+      <span id="monStats" class="mon-stats"></span>
+    </div>
+    <div id="monitorOut" class="monitor-out"></div>
+  </section>
+
+  <script src="vendor/uPlot.iife.min.js"></script>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

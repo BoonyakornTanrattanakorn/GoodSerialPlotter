@@ -1,0 +1,13 @@
+# dependencies / tooling (only ever installed transiently for tests)
+node_modules/
+package.json
+package-lock.json
+
+# transient test + debug artifacts
+_*.mjs
+_*.png
+*.tmp
+
+# OS
+.DS_Store
+Thumbs.db
