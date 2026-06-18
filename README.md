@@ -4,7 +4,7 @@ A browser-based serial plotter that runs entirely as a static site (GitHub
 Pages). It talks to your device directly via the **Web Serial API** — no
 backend, no install, no local helper app.
 
-Live: `https://boonyakorntanrattanakorn.github.io/GoodSerialPlotter/`
+Live: [GoodSerialPlotter](https://boonyakorntanrattanakorn.github.io/GoodSerialPlotter/)
 
 ## Features
 
