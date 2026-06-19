@@ -89,6 +89,7 @@
   <nav class="tabs">
     <button id="tabPlots" class="tab active" data-tab="plots" type="button">Plots</button>
     <button id="tabMonitor" class="tab" data-tab="monitor" type="button">Serial Monitor</button>
+    <button id="tabLatest" class="tab" data-tab="latest" type="button">Latest</button>
   </nav>
 
   <!-- Plot panels are created dynamically by src/plotpanel.js -->
@@ -107,6 +108,15 @@
       <span id="monStats" class="mon-stats"></span>
     </div>
     <div id="monitorOut" class="monitor-out"></div>
+  </section>
+
+  <section id="latestPage" class="tab-page">
+    <div class="latest-toolbar">
+      <span class="latest-legend"><span class="dot present"></span> in latest line</span>
+      <span class="latest-legend"><span class="dot absent"></span> missing from latest line</span>
+    </div>
+    <!-- Rows are created dynamically by src/latest.js -->
+    <div id="latestOut" class="latest-out"></div>
   </section>
 
   <!-- Welcome / help overlay -->

@@ -9,6 +9,7 @@ import { decimate } from './decimate.js';
 import { Recorder } from './recorder.js';
 import { PlotPanel } from './plotpanel.js';
 import { SerialMonitor } from './monitor.js';
+import { LatestView } from './latest.js';
 import { windowStats } from './stats.js';
 
 const $ = (id) => document.getElementById(id);
@@ -30,6 +31,7 @@ const state = {
   lastStatsCompAt: 0, // last per-trace window-stats computation
   rateEma: 0,
   monitor: null,
+  latest: null,
 };
 
 function freshBuffer() {
@@ -73,6 +75,10 @@ function frame() {
   const rb = state.rb;
   const nameFn = (i) => state.parser.seriesName(i);
   const decimalsFn = (cols) => state.parser.decimalsFor(cols);
+
+  // Live snapshot of the newest line. No-op unless the Latest tab is visible;
+  // updates even while paused, since it reflects the most recent data.
+  state.latest.render(rb, state.channelCount, nameFn, decimalsFn);
 
   // Always sync each panel's chart/empty-state, even before any data arrives,
   // so panels restored from cache show their (empty) chart immediately rather
@@ -424,17 +430,23 @@ function setupMonitor() {
 
 function setupTabs() {
   const select = (tab) => {
+    const isPlots = tab === 'plots';
     const isMon = tab === 'monitor';
-    $('tabPlots').classList.toggle('active', !isMon);
+    const isLatest = tab === 'latest';
+    $('tabPlots').classList.toggle('active', isPlots);
     $('tabMonitor').classList.toggle('active', isMon);
-    $('workspace').classList.toggle('active', !isMon);
+    $('tabLatest').classList.toggle('active', isLatest);
+    $('workspace').classList.toggle('active', isPlots);
     $('monitorPage').classList.toggle('active', isMon);
+    $('latestPage').classList.toggle('active', isLatest);
     state.monitor.setVisible(isMon);
+    state.latest.setVisible(isLatest);
     // Plots need a resize when their tab becomes visible (was display:none).
-    if (!isMon) state.panels.forEach((p) => p.plot.resize());
+    if (isPlots) state.panels.forEach((p) => p.plot.resize());
   };
   $('tabPlots').onclick = () => select('plots');
   $('tabMonitor').onclick = () => select('monitor');
+  $('tabLatest').onclick = () => select('latest');
 }
 
 // ---- welcome / help overlay ------------------------------------------------
@@ -475,6 +487,7 @@ wirePersistence();
 restoreSettings();
 freshBuffer();
 setupMonitor();
+state.latest = new LatestView($('latestOut'));
 setupTabs();
 setupWelcome();
 restorePlots();

@@ -107,7 +107,11 @@ export class FakeSource {
         const a = (Math.sin(t * 2 * Math.PI * 1.0) * 100).toFixed(2);
         const b = (Math.sin(t * 2 * Math.PI * 3.0) * 60 + 20).toFixed(2);
         const c = (Math.random() * 10).toFixed(2);
-        this.onLine(`sine:${a},tri:${b},noise:${c}`);
+        // Drop the 'noise' channel for ~2s every 6s so the "Latest" view's
+        // present/absent behaviour is visible without hardware.
+        const fields = [`sine:${a}`, `tri:${b}`];
+        if (t % 6 < 4) fields.push(`noise:${c}`);
+        this.onLine(fields.join(','));
         this.emitted++;
       }
       requestAnimationFrame(tick);
